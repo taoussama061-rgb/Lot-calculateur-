@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Oussama_Lot</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f1a;
+    --surface: #141726;
+    --card: #1a1f35;
+    --border: #252c47;
+    --gold: #f0a500;
+    --gold-dim: #a87200;
+    --gold-glow: rgba(240,165,0,0.18);
+    --text: #e8ecf5;
+    --muted: #6b7599;
+  }
+
+  * { -webkit-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(240,165,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(240,165,0,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    width: 100%;
+    max-width: 480px;
+    padding: 0 0 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #0d0f1a 0%, #141726 100%);
+    border-bottom: 2px solid var(--gold);
+    padding: 28px 24px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--gold);
+    box-shadow: 0 0 16px var(--gold);
+    border-radius: 2px;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-shadow: 0 0 30px rgba(240,165,0,0.5);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .logo span { color: var(--text); }
+
+  .tagline {
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .card {
+    background: var(--card);
+    margin: 20px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    margin-top: 18px;
+    display: block;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  .styled-select, .styled-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 14px 16px;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-transition: border-color 0.2s;
+    transition: border-color 0.2s;
+    direction: ltr;
+    text-align: left;
+    display: block;
+  }
+
+  .styled-select:focus, .styled-input:focus {
+    border-color: var(--gold);
+  }
+
+  .styled-input::-webkit-input-placeholder { color: var(--muted); }
+  .styled-input:-ms-input-placeholder { color: var(--muted); }
+  .styled-input::placeholder { color: var(--muted); }
+
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '\25BE';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: var(--gold);
+    pointer-events: none;
+    font-size: 14px;
+  }
+
+  .row-2 {
+    display: -webkit-flex;
+    display: flex;
+    gap: 12px;
+  }
+  .row-2 .field-mini {
+    -webkit-flex: 1;
+    flex: 1;
+    min-width: 0;
+  }
+  .field-mini .section-label { font-size: 10px; }
+
+  .pair-chips {
+    display: -webkit-flex;
+    display: flex;
+    gap: 8px;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .chip {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    cursor: pointer;
+    -webkit-transition: all 0.15s;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+    font-family: 'Cairo', sans-serif;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+  }
+
+  .chip.active {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-glow);
+  }
+
+  .btn-calc {
+    width: 100%;
+    margin-top: 22px;
+    background: linear-gradient(135deg, #f0a500 0%, #d48f00 100%);
+    border: none;
+    border-radius: 14px;
+    color: #0d0f1a;
+    font-family: 'Cairo', sans-serif;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    padding: 17px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 4px 20px rgba(240,165,0,0.3);
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+    display: block;
+  }
+
+  .btn-calc:active { opacity: 0.82; }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 10px 0 18px;
+    opacity: 0.5;
+  }
+
+  .result-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .main-lot {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--gold);
+    text-shadow: 0 0 40px rgba(240,165,0,0.4);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .lot-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .stats-grid {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    -webkit-flex: 1 1 calc(50% - 5px);
+    flex: 1 1 calc(50% - 5px);
+    min-width: 0;
+  }
+
+  .stat-box.highlight {
+    border-color: var(--gold-dim);
+    background: linear-gradient(135deg, var(--surface), rgba(240,165,0,0.05));
+  }
+
+  .stat-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    color: var(--text);
+    letter-spacing: 1px;
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-value.gold { color: var(--gold); }
+
+  .risk-bar-wrap { margin-top: 18px; }
+
+  .risk-bar-label {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+
+  .risk-bar-bg {
+    height: 6px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .risk-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #a87200, #f0a500);
+    border-radius: 99px;
+    -webkit-transition: width 0.6s ease;
+    transition: width 0.6s ease;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 10px 16px 0;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  @-webkit-keyframes shake {
+    0%,100%{ -webkit-transform:translateX(0); }
+    25%{ -webkit-transform:translateX(-6px); }
+    75%{ -webkit-transform:translateX(6px); }
+  }
+  @keyframes shake {
+    0%,100%{ transform:translateX(0); }
+    25%{ transform:translateX(-6px); }
+    75%{ transform:translateX(6px); }
+  }
+  .shake {
+    border-color: #e05555 !important;
+    -webkit-animation: shake 0.35s ease;
+    animation: shake 0.35s ease;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="logo">OUSSAMA<span>_LOT</span></div>
+    <div class="tagline">Position Size Calculator</div>
+  </div>
+
+  <div class="card">
+    <span class="section-label">زوج العملة</span>
+    <div class="pair-chips" id="pairChips">
+      <button type="button" class="chip active" data-pair="EUR/USD">EUR/USD</button>
+      <button type="button" class="chip" data-pair="GBP/USD">GBP/USD</button>
+      <button type="button" class="chip" data-pair="USD/JPY">USD/JPY</button>
+      <button type="button" class="chip" data-pair="XAU/USD">XAU/USD</button>
+      <button type="button" class="chip" data-pair="GBP/JPY">GBP/JPY</button>
+      <button type="button" class="chip" data-pair="USD/CAD">USD/CAD</button>
+    </div>
+    <input class="styled-input" id="pairInput" type="text" value="EUR/USD" placeholder="أدخل الزوج يدوياً" style="margin-top:8px;" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false">
+
+    <span class="section-label">عملة الحساب</span>
+    <div class="select-wrap">
+      <select class="styled-select" id="accountCurrency">
+        <option value="USD">USD — دولار أمريكي</option>
+        <option value="EUR">EUR — يورو</option>
+        <option value="GBP">GBP — جنيه إسترليني</option>
+        <option value="JPY">JPY — ين ياباني</option>
+        <option value="CAD">CAD — دولار كندي</option>
+        <option value="AUD">AUD — دولار أسترالي</option>
+      </select>
+    </div>
+
+    <div class="row-2">
+      <div class="field-mini">
+        <span class="section-label">رصيد الحساب</span>
+        <input class="styled-input" id="balance" type="number" inputmode="decimal" placeholder="6000" min="0" autocomplete="off">
+      </div>
+      <div class="field-mini">
+        <span class="section-label">نسبة المخاطرة %</span>
+        <input class="styled-input" id="riskPct" type="number" inputmode="decimal" placeholder="1" min="0.1" max="100" step="0.1" autocomplete="off">
+      </div>
+    </div>
+
+    <span class="section-label">وقف الخسارة (بالنقاط)</span>
+    <input class="styled-input" id="stopLoss" type="number" inputmode="decimal" placeholder="44" min="1" autocomplete="off">
+
+    <button type="button" class="btn-calc" id="calcBtn">احسب الحجم</button>
+  </div>
+
+  <div class="card">
+    <div class="result-header">النتيجة</div>
+    <div class="divider"></div>
+    <span class="lot-label">STANDARD LOTS</span>
+    <span class="main-lot" id="resStdLot">0.00</span>
+
+    <div class="stats-grid">
+      <div class="stat-box highlight">
+        <span class="stat-title">المخاطرة بالدولار</span>
+        <span class="stat-value gold" id="resRisk">0.00</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-title">الوحدات</span>
+        <span class="stat-value" id="resUnits">0</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-title">ميني لوت</span>
+        <span class="stat-value" id="resMini">0.00</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-title">ميكرو لوت</span>
+        <span class="stat-value" id="resMicro">0.00</span>
+      </div>
+    </div>
+
+    <div class="risk-bar-wrap">
+      <div class="risk-bar-label">
+        <span>نسبة المخاطرة من الرصيد</span>
+        <span id="riskBarPct">0%</span>
+      </div>
+      <div class="risk-bar-bg">
+        <div class="risk-bar-fill" id="riskBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">© 2026 Oussama_Lot · Smart Money Tools</div>
+</div>
+
+<script>
+(function() {
+
+  var selectedPair = 'EUR/USD';
+  var chips = document.querySelectorAll('.chip');
+
+  // Chip handlers
+  var i;
+  for (i = 0; i < chips.length; i++) {
+    chips[i].addEventListener('touchend', handleChipTouch, false);
+    chips[i].addEventListener('click', handleChipClick, false);
+  }
+
+  var lastTouchTime = 0;
+
+  function handleChipTouch(e) {
+    e.preventDefault();
+    lastTouchTime = Date.now();
+    activateChip(this);
+  }
+
+  function handleChipClick(e) {
+    // Prevent double-fire on touch devices
+    if (Date.now() - lastTouchTime < 500) return;
+    activateChip(this);
+  }
+
+  function activateChip(chip) {
+    var j;
+    for (j = 0; j < chips.length; j++) {
+      chips[j].classList.remove('active');
+    }
+    chip.classList.add('active');
+    selectedPair = chip.getAttribute('data-pair');
+    document.getElementById('pairInput').value = selectedPair;
+  }
+
+  // Pair input
+  document.getElementById('pairInput').addEventListener('input', function() {
+    var val = this.value.toUpperCase();
+    selectedPair = val;
+    var j;
+    for (j = 0; j < chips.length; j++) {
+      chips[j].classList.remove('active');
+    }
+  });
+
+  // Calc button — both touch and click
+  var calcBtn = document.getElementById('calcBtn');
+  var lastCalcTouch = 0;
+
+  calcBtn.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    lastCalcTouch = Date.now();
+    calculate();
+  }, false);
+
+  calcBtn.addEventListener('click', function(e) {
+    if (Date.now() - lastCalcTouch < 500) return;
+    calculate();
+  }, false);
+
+  function getPipValue(pair) {
+    var p = pair.toUpperCase().replace('/', '').replace(/\s/g, '');
+    var jpy = ['USDJPY','EURJPY','GBPJPY','CADJPY','AUDJPY','NZDJPY','CHFJPY'];
+    var xau = ['XAUUSD','XAUEUR'];
+    var k;
+    for (k = 0; k < xau.length; k++) { if (p === xau[k]) return 10; }
+    for (k = 0; k < jpy.length; k++) { if (p === jpy[k]) return 9.09; }
+    return 10;
+  }
+
+  function calculate() {
+    var balanceEl  = document.getElementById('balance');
+    var riskPctEl  = document.getElementById('riskPct');
+    var stopLossEl = document.getElementById('stopLoss');
+
+    var balance      = parseFloat(balanceEl.value);
+    var riskPct      = parseFloat(riskPctEl.value);
+    var stopLossPips = parseFloat(stopLossEl.value);
+    var pair         = document.getElementById('pairInput').value || selectedPair;
+
+    var hasError = false;
+    var fields = [
+      { el: balanceEl,  val: balance },
+      { el: riskPctEl,  val: riskPct },
+      { el: stopLossEl, val: stopLossPips }
+    ];
+
+    var fi;
+    for (fi = 0; fi < fields.length; fi++) {
+      if (isNaN(fields[fi].val) || fields[fi].val <= 0) {
+        triggerShake(fields[fi].el);
+        hasError = true;
+      }
+    }
+    if (hasError) return;
+
+    var riskAmount   = (balance * riskPct) / 100;
+    var pipValue     = getPipValue(pair);
+    var standardLots = riskAmount / (stopLossPips * pipValue);
+    var units        = Math.round(standardLots * 100000);
+    var miniLots     = standardLots * 10;
+    var microLots    = standardLots * 100;
+
+    document.getElementById('resStdLot').innerHTML = standardLots.toFixed(2);
+    document.getElementById('resRisk').innerHTML   = riskAmount.toFixed(2);
+    document.getElementById('resUnits').innerHTML  = String(units);
+    document.getElementById('resMini').innerHTML   = miniLots.toFixed(2);
+    document.getElementById('resMicro').innerHTML  = microLots.toFixed(2);
+
+    var barW = riskPct * 20;
+    if (barW > 100) barW = 100;
+    document.getElementById('riskBar').style.width = barW + '%';
+    document.getElementById('riskBarPct').innerHTML = riskPct + '%';
+
+    // Scroll result into view
+    try {
+      document.getElementById('resStdLot').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch(err) {
+      document.getElementById('resStdLot').scrollIntoView(false);
+    }
+  }
+
+  function triggerShake(el) {
+    el.classList.remove('shake');
+    // Force reflow Safari-safe way
+    var dummy = el.offsetHeight;
+    el.classList.add('shake');
+    setTimeout(function() { el.classList.remove('shake'); }, 400);
+  }
+
+})();
+</script>
+</body>
+</html>
